@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=1" name="viewport" />
+    <meta name="theme-color" content="#0A0E1A" />
+    <title>FPT Telecom | Chương Trình Sinh Viên Công Nghệ Tập Sự 2026</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00D4FF",
+                        "primary-dark": "#00B8FF",
+                        "secondary": "#FF6B9D",
+                        "dark-bg": "#0A0E1A",
+                        "dark-surface": "#121826",
+                        "dark-border": "#1F2937",
+                        "on-background": "#FFFFFF",
+                        "on-surface-variant": "#94A3B8"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    screens: {
+                        'xs': '475px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                        '2xl': '1536px',
+                    },
+                    transitionTimingFunction: {
+                        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+                        'bounce-smooth': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0E1A;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .font-headline {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        /* ========== IMPROVED NAVIGATION STYLES ========== */
+        .glass-nav {
+            background: rgba(10, 14, 26, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(31, 41, 55, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-nav.scrolled {
+            background: rgba(10, 14, 26, 0.95);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        /* Nav Link Base Style - Enhanced */
+        .nav-link {
+            position: relative;
+            padding: 8px 4px;
+            color: #94A3B8;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        /* Underline Animation */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00D4FF, #4D9FFF);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+
+        /* Hover State */
+        .nav-link:hover {
+            color: #00D4FF;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Active State - Enhanced */
+        .nav-link.active {
+            color: #00D4FF !important;
+            text-shadow: 0 0 25px rgba(0, 212, 255, 0.6);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: linear-gradient(90deg, #00D4FF, #4D9FFF, #00D4FF);
+            background-size: 200% 100%;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Glow effect for active nav */
+        .nav-link.active {
+            position: relative;
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+            border-radius: 8px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link.active::before {
+            opacity: 1;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-nav.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav .nav-link {
+            display: block;
+            padding: 16px 20px;
+            font-size: 1.125rem;
+            border-bottom: 1px solid rgba(31, 41, 55, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-nav .nav-link:hover {
+            background: rgba(0, 212, 255, 0.1);
+            padding-left: 28px;
+        }
+
+        .mobile-nav .nav-link::after {
+            display: none;
+        }
+
+        /* Hamburger Button - Enhanced */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hamburger:hover {
+            transform: scale(1.1);
+        }
+
+        .hamburger:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        .hamburger-line {
+            width: 24px;
+            height: 2.5px;
+            background: linear-gradient(90deg, #FFFFFF, #94A3B8);
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+            background: #00D4FF;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+            background: #00D4FF;
+        }
+
+        /* ========== END NAVIGATION STYLES ========== */
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        @media (max-width: 768px) {
+            html {
+                scroll-padding-top: 80px;
+            }
+        }
+
+        /* Offset for fixed nav */
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        @media (max-width: 768px) {
+            section {
+                scroll-margin-top: 80px;
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00D4FF 0%, #4D9FFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bento-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #1F2937;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-8px);
+            border-color: #00D4FF;
+            box-shadow: 0 20px 40px -20px rgba(0, 212, 255, 0.2);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .mentor-card {
+            opacity: 0.4;
+            transform: scale(0.85);
+            filter: blur(1px);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mentor-card.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        .mentor-card:not(.active):hover {
+            opacity: 0.7;
+            transform: scale(0.9);
+            filter: blur(0.5px);
+        }
+
+        .mentor-card.active:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: var(--primary, #00D4FF);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Modal Styles */
+        #mentorModal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #mentorModal.open .modal-content {
+            transform: scale(1);
+        }
+
+        /* Navigation Dots */
+        .mentor-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(0, 212, 255, 0.3);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mentor-dot.active {
+            background: #00D4FF;
+            border-color: #00D4FF;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .mentor-dot:hover {
+            background: rgba(0, 212, 255, 0.5);
+            border-color: #00D4FF;
+        }
+
+        /* Achievement List */
+        #modalAchievements li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #modalAchievements li:hover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateX(4px);
+        }
+
+        #modalAchievements li::before {
+            content: "✓";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #00D4FF;
+            border-radius: 50%;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        /* Expertise Tags */
+        #modalExpertise span {
+            padding: 8px 16px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            color: #00D4FF;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        #modalImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .modal-content img {
+            display: block;
+        }
+
+        #modalExpertise span:hover {
+            background: #00D4FF;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Scrollbar */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.5);
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.8);
+        }
+
+        /* Disable body scroll when modal open */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Pause indicator */
+        #mentorSlider.paused .mentor-card.active {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* Carousel Container */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* Carousel Track */
+        .carousel-track {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            padding: 2rem 0;
+            will-change: transform;
+            touch-action: pan-y;
+        }
+
+        /* Carousel Cards */
+        .carousel-card {
+            flex-shrink: 0;
+            width: 280px;
+        }
+
+        @media (max-width: 640px) {
+            .carousel-card {
+                width: 260px;
+            }
+        }
+
+        /* Carousel Dots */
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #4b5563;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-dot:hover {
+            background-color: #6b7280;
+        }
+
+        .carousel-dot.active {
+            background-color: #00D4FF;
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* Modal States */
+        .modal-open {
+            overflow: hidden;
+        }
+
+        #mentorModal.open,
+        #internModal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #mentorModal.open .modal-content,
+        #internModal.open .modal-content {
+            transform: scale(1);
+        }
+
+        /* Card Active State */
+        .carousel-card.active {
+            border-color: #00D4FF;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+            }
+        }
+
+        /* Touch-friendly buttons */
+        button,
+        a,
+        .cursor-pointer {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        /* Prevent zoom on input focus */
+        @media (max-width: 768px) {
+
+            input,
+            select,
+            textarea {
+                font-size: 16px;
+            }
+        }
+
+        /* Improved modal for mobile */
+        @media (max-width: 640px) {
+            .modal-content {
+                max-height: 90vh;
+                overflow-y: auto;
+                margin: 1rem;
+            }
+        }
+
+        /* Hero section mobile adjustments */
+        @media (max-width: 768px) {
+            .hero-glass-box {
+                padding: 1.5rem !important;
+            }
+        }
+
+        /* Card hover effects on mobile - disable for better UX */
+        @media (max-width: 768px) {
+            .group:hover {
+                transform: none !important;
+            }
+        }
+
+        /* Timeline Mobile */
+        .timeline-line {
+            background: linear-gradient(90deg, #00D4FF, #4D9FFF);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-dark-bg text-on-background selection:bg-primary/30">
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobileNav" class="mobile-nav fixed inset-0 z-40 bg-dark-bg/95 backdrop-blur-xl md:hidden">
+        <div class="flex flex-col h-full p-6 pt-24">
+            <a class="nav-link font-headline font-semibold text-slate-300 hover:text-[#00D4FF]" href="#tong_quan">Tổng
+                quan</a>
+            <a class="nav-link font-headline font-semibold text-slate-300 hover:text-[#00D4FF]" href="#nhom_nganh">Nhóm
+                ngành</a>
+            <a class="nav-link font-headline font-semibold text-slate-300 hover:text-[#00D4FF]" href="#quyen_loi">Quyền
+                lợi</a>
+            <a class="nav-link font-headline font-semibold text-slate-300 hover:text-[#00D4FF]" href="#doi_tuong">Đối
+                tượng</a>
+            <a class="nav-link font-headline font-semibold text-slate-300 hover:text-[#00D4FF]" href="#quy_trinh">Quy
+                trình</a>
+            <a class="nav-link font-headline font-semibold text-slate-300 hover:text-[#00D4FF]" href="#mentors">Chuyên
+                gia</a>
+            <a class="nav-link font-headline font-semibold text-slate-300 hover:text-[#00D4FF]"
+                href="#the_he_tien_nhiem">Cựu SVCNTS</a>
+            <button
+                onclick="closeMobileNav(); document.getElementById('ung_tuyen').scrollIntoView({behavior: 'smooth'})"
+                class="mt-8 bg-[#00D4FF] text-white px-8 py-4 rounded-full font-headline font-semibold text-base hover:opacity-80 transition-all duration-300 active:scale-95">
+                Ứng tuyển ngay
+            </button>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 w-full z-50 glass-nav" id="mainNav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 md:py-5 flex justify-between items-center">
+            <img src="Logo_FPT_Telecom.png" class="h-8 md:h-10 w-auto transition-transform duration-300 hover:scale-105"
+                alt="FPT Telecom Logo">
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6 lg:gap-8">
+                <a class="nav-link font-headline font-semibold text-sm tracking-tight" href="#tong_quan">Tổng quan</a>
+                <a class="nav-link font-headline font-semibold text-sm tracking-tight" href="#nhom_nganh">Nhóm ngành</a>
+                <a class="nav-link font-headline font-semibold text-sm tracking-tight" href="#quyen_loi">Quyền lợi</a>
+                <a class="nav-link font-headline font-semibold text-sm tracking-tight" href="#doi_tuong">Đối tượng</a>
+                <a class="nav-link font-headline font-semibold text-sm tracking-tight" href="#quy_trinh">Quy trình</a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button onclick="toggleMobileNav()" class="hamburger md:hidden" aria-label="Menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Desktop Apply Button -->
+            <button onclick="scrollToSection('ung_tuyen', 60)"
+                class="hidden md:block bg-[#00D4FF] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full font-headline font-semibold text-sm hover:bg-[#00B8FF] transition-all duration-300 active:scale-95 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]">
+                Ứng tuyển ngay
+            </button>
+        </div>
+    </nav>
+
+    <section id="tong_quan">
+        <header class="relative w-full min-h-[70vh] sm:min-h-[800px] aspect-[1920/1080] mt-16 md:mt-24 overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="banner web.png" class="w-full h-full object-cover" alt="Big Background Cover" />
+            </div>
+            </div>
+            <div
+                class="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-primary/20 rounded-full blur-[100px] sm:blur-[120px] -mr-24 sm:-mr-48 -mt-24 sm:-mt-48 pointer-events-none">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-secondary/10 rounded-full blur-[80px] sm:blur-[100px] -ml-16 sm:-ml-24 -mb-16 sm:-mb-24 pointer-events-none">
+            </div>
+        </header>
+    </section>
+
+    <!-- Nhom Nganh Section -->
+    <section class="py-16 md:py-32 bg-dark-bg" id="nhom_nganh">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="mb-12 md:mb-20">
+                <h2
+                    class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center font-headline font-bold mb-4 md:mb-6 text-white tracking-tight">
+                    Nhóm Ngành</h2>
+                <div class="h-1.5 w-48 sm:w-72 bg-primary rounded-full my-6 md:my-8 mx-auto"></div>
+            </div>
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-4 md:gap-6 auto-rows-[280px] sm:auto-rows-[320px] md:auto-rows-[340px]">
+
+                <!-- Viễn thông -->
+                <div
+                    class="sm:col-span-3 md:col-span-6 lg:col-span-8 group bg-white/[0.02] border border-white/5 p-6 md:p-10 rounded-[24px] md:rounded-[32px] relative overflow-hidden hover:bg-white/[0.04] hover:border-white/10 hover:shadow-[0_0_40px_rgba(56,189,248,0.1)] transition-all duration-500">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-700"
+                        alt="Fiber optic"
+                        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+
+                    <div
+                        class="relative z-10 h-full flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
+                        <img src="assets/nhom_nganh_icon/vien_thong.png" class="w-32 h-auto">
+                        <div>
+                            <h3
+                                class="text-xl sm:text-2xl md:text-3xl font-headline font-bold mb-2 md:mb-3 text-white tracking-tight">
+                                Viễn thông</h3>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed max-w-md">Xây dựng hạ tầng kết
+                                nối tốc độ
+                                cao, nghiên cứu các chuẩn truyền dẫn không dây thế hệ mới.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Công nghệ thông tin -->
+                <div
+                    class="sm:col-span-3 md:col-span-6 lg:col-span-4 group bg-white/[0.02] border border-white/5 p-6 md:p-10 rounded-[24px] md:rounded-[32px] relative overflow-hidden hover:bg-white/[0.04] hover:border-white/10 hover:shadow-[0_0_40px_rgba(168,85,247,0.1)] transition-all duration-500">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-700"
+                        alt="Coding screen"
+                        src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+
+                    <div
+                        class="relative z-10 h-full flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
+                        <img src="assets/nhom_nganh_icon/cntt.png" class="w-32 h-auto">
+                        <div>
+                            <h3
+                                class="text-lg sm:text-xl md:text-2xl font-headline font-bold mb-2 md:mb-3 text-white tracking-tight">
+                                Công nghệ thông
+                                tin</h3>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed">Phát triển phần mềm, hệ thống
+                                backend và
+                                mobile app cho hàng triệu người dùng.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dữ liệu & AI -->
+                <div
+                    class="sm:col-span-3 md:col-span-6 lg:col-span-4 group bg-white/[0.02] border border-white/5 p-6 md:p-10 rounded-[24px] md:rounded-[32px] relative overflow-hidden hover:bg-white/[0.04] hover:border-white/10 hover:shadow-[0_0_40px_rgba(52,211,153,0.1)] transition-all duration-500">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-700"
+                        alt="AI Model"
+                        src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+
+                    <div
+                        class="relative z-10 h-full flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
+                        <img src="assets/nhom_nganh_icon/AI.png" class="w-32 h-auto">
+                        <div>
+                            <h3
+                                class="text-lg sm:text-xl md:text-2xl font-headline font-bold mb-2 md:mb-3 text-white tracking-tight">
+                                Dữ liệu & AI
+                            </h3>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed">Xây dựng mô hình máy học, phân
+                                tích Big
+                                Data và giải pháp Generative AI.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thiết kế vi mạch & Phần cứng -->
+                <div
+                    class="sm:col-span-3 md:col-span-6 lg:col-span-8 group bg-white/[0.02] border border-white/5 p-6 md:p-10 rounded-[24px] md:rounded-[32px] relative overflow-hidden hover:bg-white/[0.04] hover:border-white/10 hover:shadow-[0_0_40px_rgba(251,191,36,0.1)] transition-all duration-500">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-700"
+                        alt="Circuit board"
+                        src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+
+                    <div
+                        class="relative z-10 h-full flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
+                        <img src="assets/nhom_nganh_icon/thiet_ke_vi_mach.png" class="w-32 h-auto">
+                        <div>
+                            <h3
+                                class="text-xl sm:text-2xl md:text-3xl font-headline font-bold mb-2 md:mb-3 text-white tracking-tight">
+                                Thiết kế vi mạch
+                                & Phần cứng</h3>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed max-w-md">Đón đầu làn sóng bán
+                                dẫn, tham
+                                gia quy trình thiết kế chip và tối ưu hóa phần cứng viễn thông.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Điện - Tự động hóa -->
+                <div
+                    class="sm:col-span-3 md:col-span-6 lg:col-span-6 group bg-white/[0.02] border border-white/5 p-6 md:p-10 rounded-[24px] md:rounded-[32px] relative overflow-hidden hover:bg-white/[0.04] hover:border-white/10 hover:shadow-[0_0_40px_rgba(96,165,250,0.1)] transition-all duration-500">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-700"
+                        alt="Automation"
+                        src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+
+                    <div
+                        class="relative z-10 h-full flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
+                        <img src="assets/nhom_nganh_icon/dien_tu_dong_hoa.png" class="w-32 h-auto">
+                        <div>
+                            <h3
+                                class="text-lg sm:text-xl md:text-2xl font-headline font-bold mb-2 md:mb-3 text-white tracking-tight">
+                                Điện - Tự động
+                                hóa</h3>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed">Hệ thống điều khiển thông minh
+                                và IoT cho
+                                hạ tầng viễn thông.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- An toàn thông tin -->
+                <div
+                    class="sm:col-span-3 md:col-span-6 lg:col-span-6 group bg-white/[0.02] border border-white/5 p-6 md:p-10 rounded-[24px] md:rounded-[32px] relative overflow-hidden hover:bg-white/[0.04] hover:border-white/10 hover:shadow-[0_0_40px_rgba(244,63,94,0.1)] transition-all duration-500">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-700"
+                        alt="Cyber security"
+                        src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+
+                    <div
+                        class="relative z-10 h-full flex flex-col justify-between transform group-hover:-translate-y-2 transition-transform duration-500">
+                        <img src="assets/nhom_nganh_icon/an_toan_thong_tin.png" class="w-32 h-auto">
+                        <div>
+                            <h3
+                                class="text-lg sm:text-xl md:text-2xl font-headline font-bold mb-2 md:mb-3 text-white tracking-tight">
+                                An toàn thông
+                                tin</h3>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed">Bảo mật hệ thống, ứng cứu sự
+                                cố và
+                                pentest cho hạ tầng trọng yếu.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Quyen Loi Section -->
+    <section class="py-16 md:py-32 bg-dark-bg" id="quyen_loi">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-16 md:mb-28">
+                <div>
+                    <h2
+                        class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center font-headline font-bold mb-3 md:mb-4 text-white">
+                        <div>Quyền Lợi <span class="text-primary">Vượt Trội</span> Cho</div>
+                        <div class="mt-2">Tài Năng Trẻ</div>
+                    </h2>
+                    <div class="h-1.5 w-48 sm:w-72 bg-primary rounded-full my-6 md:my-8 mx-auto"></div>
+                    <p class="text-lg md:text-xl text-on-surface-variant leading-relaxed font-light">FPT Telecom không
+                        chỉ mang đến
+                        một kỳ thực tập, mà là bệ phóng vững chắc để bạn bứt phá trong sự nghiệp công nghệ.</p>
+                </div>
+                <div class="flex justify-end hidden md:flex">
+                    <div class="text-right">
+                        <div
+                            class="text-[80px] sm:text-[100px] md:text-[120px] font-headline font-black text-white/5 leading-none">
+                            2026</div>
+                        <div
+                            class="text-lg md:text-xl font-bold text-primary tracking-[0.3em] uppercase mt-[-1.5rem] md:mt-[-2rem] relative z-10">
+                            Gen Z Talent</div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8">
+                <!-- Card 01 -->
+                <div
+                    class="group bg-gradient-to-b from-[#2CC0FF] to-[#052DF5] rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+                    <div class="text-5xl sm:text-6xl md:text-7xl font-headline font-black text-white mb-4 md:mb-6">
+                        01
+                    </div>
+                    <div class="h-1 w-24 bg-white rounded-full my-6 md:my-8"></div>
+                    <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Thu nhập hấp dẫn
+                    </h4>
+                    <p class="text-white/90 text-sm md:text-base leading-snug">
+                        Lên đến 150M VNĐ/năm cùng các khoản hỗ trợ đào tạo khác.
+                    </p>
+                </div>
+
+                <!-- Card 02 -->
+                <div
+                    class="group bg-gradient-to-b from-[#2CC0FF] to-[#052DF5] rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+                    <div class="text-5xl sm:text-6xl md:text-7xl font-headline font-black text-white mb-4 md:mb-6">
+                        02
+                    </div>
+                    <div class="h-1 w-24 bg-white rounded-full my-6 md:my-8"></div>
+                    <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Kinh nghiệm R&amp;D
+                    </h4>
+                    <p class="text-white/90 text-sm md:text-base leading-snug">
+                        Trực tiếp tham gia các dự án nghiên cứu và phát triển sản phẩm thực tế.
+                    </p>
+                </div>
+
+                <!-- Card 03 -->
+                <div
+                    class="group bg-gradient-to-b from-[#2CC0FF] to-[#052DF5] rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+                    <div class="text-5xl sm:text-6xl md:text-7xl font-headline font-black text-white mb-4 md:mb-6">
+                        03
+                    </div>
+                    <div class="h-1 w-24 bg-white rounded-full my-6 md:my-8"></div>
+                    <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Mentorship 1:1</h4>
+                    <p class="text-white/90 text-sm md:text-base leading-snug">
+                        Được dẫn dắt bởi các chuyên gia công nghệ hàng đầu tại FPT.
+                    </p>
+                </div>
+
+                <!-- Card 04 -->
+                <div
+                    class="group bg-gradient-to-b from-[#2CC0FF] to-[#052DF5] rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+                    <div class="text-5xl sm:text-6xl md:text-7xl font-headline font-black text-white mb-4 md:mb-6">
+                        04
+                    </div>
+                    <div class="h-1 w-24 bg-white rounded-full my-6 md:my-8"></div>
+                    <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Lộ trình Fast-track
+                    </h4>
+                    <p class="text-white/90 text-sm md:text-base leading-snug">
+                        Cơ hội trở thành nhân viên chính thức ngay sau kỳ thực tập.
+                    </p>
+                </div>
+
+                <!-- Card 05 -->
+                <div
+                    class="group bg-gradient-to-b from-[#2CC0FF] to-[#052DF5] rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+                    <div class="text-5xl sm:text-6xl md:text-7xl font-headline font-black text-white mb-4 md:mb-6">
+                        05
+                    </div>
+                    <div class="h-1 w-24 bg-white rounded-full my-6 md:my-8"></div>
+                    <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Sponsorship</h4>
+                    <p class="text-white/90 text-sm md:text-base leading-snug">
+                        Hỗ trợ chi phí thi các chứng chỉ quốc tế (AWS, CCNA, AI...).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doi Tuong Section -->
+    <section class="py-16 md:py-32 bg-dark-bg" id="doi_tuong">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="mb-16 md:mb-28">
+                <h2
+                    class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center font-headline font-bold mb-3 md:mb-4 text-white">
+                    Đối Tượng Tuyển Chọn </h2>
+                <div class="h-1.5 w-48 sm:w-72 bg-primary rounded-full my-6 md:my-8 mx-auto"></div>
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+                    <div class="space-y-6 md:space-y-8">
+                        <div class="flex items-start gap-4">
+                            <span
+                                class="material-symbols-outlined text-primary text-2xl md:text-3xl mt-1 flex-shrink-0">check_circle</span>
+                            <div>
+                                <h4 class="text-xl md:text-2xl font-headline font-bold mb-2 text-white">Sinh viên năm 3
+                                    hoặc năm
+                                    cuối</h4>
+                                <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">Đang theo học
+                                    các ngành
+                                    Công nghệ Thông tin, Điện tử Viễn thông.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span
+                                class="material-symbols-outlined text-primary text-2xl md:text-3xl mt-1 flex-shrink-0">location_on</span>
+                            <div>
+                                <h4 class="text-xl md:text-2xl font-headline font-bold mb-2 text-white">Địa điểm làm
+                                    việc</h4>
+                                <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">Có khả năng làm
+                                    việc tại Hà
+                                    Nội hoặc TP. Hồ Chí Minh.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span
+                                class="material-symbols-outlined text-primary text-2xl md:text-3xl mt-1 flex-shrink-0">school</span>
+                            <div>
+                                <h4 class="text-xl md:text-2xl font-headline font-bold mb-2 text-white">Học lực (GPA)
+                                </h4>
+                                <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">Từ 7.0/10 hoặc
+                                    2.8/4.0 trở
+                                    lên.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6 md:space-y-8">
+                        <div class="flex items-start gap-4">
+                            <span
+                                class="material-symbols-outlined text-primary text-2xl md:text-3xl mt-1 flex-shrink-0">trending_up</span>
+                            <div>
+                                <h4 class="text-xl md:text-2xl font-headline font-bold mb-2 text-white">Định hướng phát
+                                    triển</h4>
+                                <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">Có định hướng
+                                    trong các
+                                    lĩnh vực Lập trình, Bảo mật, Hệ thống…</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span
+                                class="material-symbols-outlined text-primary text-2xl md:text-3xl mt-1 flex-shrink-0">volunteer_activism</span>
+                            <div>
+                                <h4 class="text-xl md:text-2xl font-headline font-bold mb-2 text-white">Hoạt động cộng
+                                    đồng</h4>
+                                <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">Tham gia các
+                                    hoạt động xã
+                                    hội, cộng đồng là một lợi thế.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+                <div
+                    class="group bg-dark-surface rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"
+                        alt="Fiber optic cables"
+                        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+                    <div class="relative z-10">
+                        <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Viễn thông</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">CCNA, CCNP(**), Chứng
+                            chỉ về 5G,
+                            Optical Networking, …</p>
+                    </div>
+                </div>
+                <div
+                    class="group bg-dark-surface rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"
+                        alt="Coding screen"
+                        src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+                    <div class="relative z-10">
+                        <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Công nghệ Thông
+                            tin</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">AWS(**), Microsoft
+                            Azure, BA, QC…
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="group bg-dark-surface rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"
+                        alt="AI Model network"
+                        src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+                    <div class="relative z-10">
+                        <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">AI & Data
+                            Science</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">AI/ML, Microsoft
+                            Certified(**), …
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="group bg-dark-surface rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"
+                        alt="Circuit board"
+                        src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+                    <div class="relative z-10">
+                        <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Bán Dẫn</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">IC Design(**), FPGA, …
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="group bg-dark-surface rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"
+                        alt="Cyber security"
+                        src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1000&q=80" />
+                   <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+                    <div class="relative z-10">
+                        <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">An Toàn Thông
+                            Tin</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">SSCP, CEH, OSCP(**),
+                            CompTIA, …</p>
+                    </div>
+                </div>
+                <div
+                    class="group bg-dark-surface rounded-xl md:rounded-2xl p-6 md:p-8 border border-dark-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 relative overflow-hidden">
+                    <img class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"
+                        alt="Electricity and automation"
+                        src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1000&q=80" />
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#2CC0FF]/70 to-[#052DF5]/85"></div>
+                    <div class="relative z-10">
+                        <h4 class="text-xl md:text-2xl font-headline font-bold mb-3 md:mb-4 text-white">Điện</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">CDCP(**), TIA-942
+                            Design, Uptime
+                            Institute - ATS, AutoCAD, Revit (BIM), …</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chuyen gia Section -->
+    <section class="py-16 md:py-32 bg-dark-bg" id="mentors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
+            <div class="mb-12 md:mb-20">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center font-headline font-bold text-white">
+                    Gặp Gỡ Các Chuyên Gia
+                </h2>
+                <div class="h-1.5 w-48 sm:w-72 bg-primary rounded-full my-6 md:my-8 mx-auto"></div>
+            </div>
+            <div id="mentorSlider" class="overflow-hidden py-8 md:py-10">
+                <div id="mentorTrack" class="flex gap-4 md:gap-8 transition-transform duration-700 ease-in-out">
+                    <!-- Card 1 -->
+                    <div class="mentor-card snap-center shrink-0 w-[280px] sm:w-[300px] md:w-[320px] bg-dark-surface/50 p-6 md:p-10 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                        data-name="Lê Trung" data-title="Giám đốc Trung tâm Phát triển & Quản lý Hạ tầng (INF)"
+                        data-image="assets/Lê Trung.png"
+                        data-bio="Anh Trung với hơn 15 năm kinh nghiệm trong lĩnh vực hạ tầng và mạng viễn thông. Anh có chuyên môn sâu về kiến trúc, vận hành và quản lý hạ tầng viễn thông, từng tham gia thiết kế, triển khai và tối ưu các hệ thống network quy mô lớn.
+Anh sở hữu chứng chỉ CCIE Service Provider và được vinh danh trong các chương trình nhân tài tiêu biểu của FPT như FPT Under 35 và Trạng nguyên FPT.">
+                        <div
+                            class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                            <img class="w-full h-full object-cover object-[center_20%]" src="assets/Lê Trung.png" />
+                        </div>
+                        <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Lê Trung</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                            Giám đốc Trung tâm Phát triển & Quản lý Hạ tầng (INF)
+                        </p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="mentor-card snap-center shrink-0 w-[280px] sm:w-[300px] md:w-[320px] bg-dark-surface/50 p-6 md:p-10 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                        data-name="Nguyễn Trọng Thân" data-title="Phó Giám đốc Trung tâm AI Chip"
+                        data-image="assets/Nguyễn Trọng Thân.png"
+                        data-bio="Anh Thân với hơn 11 năm kinh nghiệm tại FPT, từng đảm nhiệm nhiều vai trò từ Embedded Engineer đến Product Owner cho các sản phẩm IoT và FPT Camera.
+Anh là người trực tiếp phát triển AK – Active Kernel (hệ thống event-driven được triển khai trên hàng triệu thiết bị) và làm chủ firmware cho dòng camera đạt quy mô kinh doanh lên tới 1 triệu thiết bị mỗi năm.">
+                        <div
+                            class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                            <img class="w-full h-full object-cover object-[center_20%]"
+                                src="assets/Nguyễn Trọng Thân.png" />
+                        </div>
+                        <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Nguyễn Trọng
+                            Thân</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                            Phó Giám đốc Trung tâm AI Chip
+                        </p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="mentor-card snap-center shrink-0 w-[280px] sm:w-[300px] md:w-[320px] bg-dark-surface/50 p-6 md:p-10 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                        data-name="Nguyễn Thành Công" data-title="Trưởng phòng Công nghệ và Dữ liệu"
+                        data-image="assets/Nguyễn Thành Công.png"
+                        data-bio="Anh Công với hơn 16 năm kinh nghiệm tại FPT. Anh có chuyên môn về bảo mật, phát triển sản phẩm và AI, đồng thời đã xây dựng các hệ thống tự động vận hành cho hơn 70.000 thiết bị mạng toàn FTEL, phát triển các giải pháp bảo mật như chống DDoS cho FTI và nền tảng dữ liệu phục vụ toàn hệ sinh thái.">
+                        <div
+                            class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                            <img class="w-full h-full object-cover object-[center_20%]"
+                                src="assets/Nguyễn Thành Công.png" />
+                        </div>
+                        <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Nguyễn Thành
+                            Công</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                            Trưởng phòng Công nghệ và Dữ liệu
+                        </p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="mentor-card snap-center shrink-0 w-[280px] sm:w-[300px] md:w-[320px] bg-dark-surface/50 p-6 md:p-10 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                        data-name="Huỳnh Quang Sang" data-title="Trưởng phòng Nghiên cứu & Phát triển"
+                        data-image="assets/Huỳnh Quang Sang.jpg"
+                        data-bio="Sở hữu hơn 10 năm kinh nghiệm trong lĩnh vực Data, anh Sang có nền tảng chuyên sâu về Database Administration, Data Architecture và Business Intelligence.
+Anh là người đứng sau nhiều dự án dữ liệu trọng điểm như Customer360, SmartAgent, Quản trị số 24/7, Marketing Intelligent, góp phần thúc đẩy chuyển đổi số và tối ưu vận hành doanh nghiệp.">
+                        <div
+                            class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                            <img class="w-full h-full object-cover object-[center_20%]"
+                                src="assets/Huỳnh Quang Sang.jpg" />
+                        </div>
+                        <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Huỳnh Quang Sang
+                        </h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                            Trưởng phòng Nghiên cứu & Phát triển
+                        </p>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="mentor-card snap-center shrink-0 w-[280px] sm:w-[300px] md:w-[320px] bg-dark-surface/50 p-6 md:p-10 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                        data-name="Nguyễn Văn Quyết" data-title="Phó phòng Vận hành Trung tâm Dữ liệu"
+                        data-image="assets/Nguyễn_Văn_Quyết.png"
+                        data-bio="Anh Quyết với hơn 11 năm kinh nghiệm trong lĩnh vực hạ tầng Data Center. Anh có chuyên môn sâu về vận hành hệ thống điện (TBA, UPS, máy phát điện), hệ thống làm mát cùng các giải pháp giám sát và quản lý hạ tầng DC.
+Bên cạnh đó, anh sở hữu các chứng chỉ quốc tế CDCP, CDRP, CDE do EXIN (Hà Lan) cấp. Trong quá trình làm việc, anh đã tham gia triển khai và vận hành hạ tầng cho các dự án quy mô lớn như TikTok, Google, AWS, góp phần đảm bảo hệ thống vận hành ổn định, an toàn và đạt tiêu chuẩn quốc tế.">
+                        <div
+                            class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                            <img class="w-full h-full object-cover object-[center_20%]"
+                                src="assets/Nguyễn_Văn_Quyết.png" />
+                        </div>
+                        <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Nguyễn Văn Quyết
+                        </h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                            Phó phòng Vận hành Trung tâm Dữ liệu
+                        </p>
+                    </div>
+                </div>
+                <div id="mentorDots" class="flex justify-center gap-2 md:gap-3 mt-8 md:mt-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Chuyen_Gia -->
+    <div id="mentorModal"
+        class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div
+            class="modal-content relative bg-dark-surface rounded-2xl md:rounded-3xl border border-dark-border max-w-lg w-full mx-4 md:mx-6 transform scale-95 transition-transform duration-300 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button id="modalClose"
+                class="absolute top-3 md:top-4 right-3 md:right-4 w-9 h-9 md:w-10 md:h-10 rounded-full bg-dark-bg border border-dark-border text-white hover:bg-primary hover:border-primary transition-all duration-300 z-10 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="p-6 md:p-10">
+                <div
+                    class="flex flex-col items-center text-center mb-6 md:mb-8 pb-6 md:pb-8 border-b border-dark-border">
+                    <div
+                        class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-xl mb-4 md:mb-6">
+                        <img id="modalImage" class="w-full h-full object-cover" src="" alt="" />
+                    </div>
+                    <h3 id="modalName" class="font-headline font-bold text-2xl md:text-3xl text-white mb-2"></h3>
+                    <p id="modalTitle" class="text-primary text-sm md:text-base font-medium"></p>
+                </div>
+                <div>
+                    <p id="modalBio"
+                        class="whitespace-pre-line text-on-surface-variant leading-relaxed text-sm md:text-base"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CuuSVCNTS Section - Static Grid -->
+    <section class="py-16 md:py-32 bg-dark-bg" id="the_he_tien_nhiem">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
+            <div class="mb-12 md:mb-20">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center font-headline font-bold text-white">
+                    Gặp Gỡ Các Cựu Sinh Viên Công Nghệ Tập Sự
+                </h2>
+                <div class="h-1.5 w-48 sm:w-72 bg-primary rounded-full my-6 md:my-8 mx-auto"></div>
+            </div>
+
+            <!-- Static Grid Layout -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Card 1: Nguyễn Ngọc Phú -->
+                <div class="bg-dark-surface/50 p-6 md:p-8 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                    data-name="Nguyễn Ngọc Phú" data-title="Full-stack Developer"
+                    data-image="assets/Nguyễn Ngọc Phú_ Cựu SV.jpg"
+                    data-bio="Phú là cựu học viên SVCNTS 2024, hiện theo học CNTT liên kết AUT tại ĐH Khoa học Tự nhiên TP.HCM. Bạn đã tham gia các hệ thống như VOC, OmniAgent, OmniSR, phát triển năng lực fullstack và tối ưu hệ thống với Redis, MySQL, Kafka.">
+                    <div
+                        class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                        <img class="w-full h-full object-cover object-[center_20%]"
+                            src="assets/Nguyễn Ngọc Phú_ Cựu SV.jpg" alt="Nguyễn Ngọc Phú" />
+                    </div>
+                    <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Nguyễn Ngọc Phú</h4>
+                    <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                        Full-stack Developer
+                    </p>
+                </div>
+
+                <!-- Card 2: Lê Thị Hồng Ngọt -->
+                <div class="bg-dark-surface/50 p-6 md:p-8 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                    data-name="Lê Thị Hồng Ngọt" data-title="Kỹ sư lập trình"
+                    data-image="assets/Lê Thị Hồng Ngọc _ Cựu SV.png"
+                    data-bio="Ngọt là cựu học viên SVCNTS 2024, tốt nghiệp Đại học Sư phạm, hiện phát triển hệ thống tại FPT Telecom. Bạn đã tham gia các dự án như IVOICE, FPMS và IDC, tích lũy kinh nghiệm xây dựng các hệ thống phục vụ vận hành doanh nghiệp.">
+                    <div
+                        class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                        <img class="w-full h-full object-cover object-[center_20%]"
+                            src="assets/Lê Thị Hồng Ngọc _ Cựu SV.png" alt="Lê Thị Hồng Ngọt" />
+                    </div>
+                    <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Lê Thị Hồng Ngọt
+                    </h4>
+                    <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                        Kỹ sư lập trình
+                    </p>
+                </div>
+
+                <!-- Card 3: Phan Thị Hương Bình -->
+                <div class="bg-dark-surface/50 p-6 md:p-8 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                    data-name="Phan Thị Hương Bình" data-title="QC Manual"
+                    data-image="assets/Phan thị hương bình_Cựu SV.PNG"
+                    data-bio='Bình là cựu học viên SVCNTS 2024, tốt nghiệp Đại học Tài chính - Marketing, hiện làm QC Manual tại FPT Telecom. Bạn đã tham gia kiểm thử các hệ thống như HRIS, Billing Hub, ECOM, FPT.vn và Customer 360, đồng thời ứng dụng tư duy "AI-first" để tối ưu quy trình và nâng cao hiệu quả công việc.'>
+                    <div
+                        class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                        <img class="w-full h-full object-cover object-[center_20%]"
+                            src="assets/Phan thị hương bình_Cựu SV.PNG" alt="Phan Thị Hương Bình" />
+                    </div>
+                    <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Phan Thị Hương Bình
+                    </h4>
+                    <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                        QC Manual
+                    </p>
+                </div>
+
+                <!-- Card 4: Nguyễn Văn Quang Hưng -->
+                <div class="bg-dark-surface/50 p-6 md:p-8 rounded-2xl border border-dark-border text-center group hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+                    data-name="Nguyễn Văn Quang Hưng" data-title="Cán bộ Phân tích Dữ Liệu"
+                    data-image="assets/Nguyễn Văn Quang Hưng - Cựu SV.png"
+                    data-bio="Hưng là cựu học viên SVCNTS 2024, tốt nghiệp Trường Đại học Khoa học Tự nhiên TP.HCM (HCMUS). Hiện tại, bạn tập trung vào thu thập, xử lý và phân tích dữ liệu nhằm hỗ trợ vận hành và ra quyết định kinh doanh, đồng thời tham gia các dự án như Smart Agent (Cus360) và FMI LeadScoring, góp phần nâng cao hiệu quả khai thác dữ liệu trong hệ sinh thái.">
+                    <div
+                        class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden mb-6 md:mb-8 border-4 border-dark-bg ring-4 ring-primary/20 shadow-2xl">
+                        <img class="w-full h-full object-cover object-[center_20%]"
+                            src="assets/Nguyễn Văn Quang Hưng - Cựu SV.png" alt="Nguyễn Văn Quang Hưng" />
+                    </div>
+                    <h4 class="font-headline font-bold text-xl md:text-2xl mb-3 md:mb-4 text-white">Nguyễn Văn Quang
+                        Hưng</h4>
+                    <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">
+                        Cán bộ Phân tích Dữ Liệu
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for CuuSVCNTS -->
+    <div id="internModal"
+        class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div
+            class="modal-content relative bg-dark-surface rounded-2xl md:rounded-3xl border border-dark-border max-w-lg w-full mx-4 md:mx-6 transform scale-95 transition-transform duration-300 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button
+                class="modal-close absolute top-3 md:top-4 right-3 md:right-4 w-9 h-9 md:w-10 md:h-10 rounded-full bg-dark-bg border border-dark-border text-white hover:bg-primary hover:border-primary transition-all duration-300 z-10 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="p-6 md:p-10">
+                <div
+                    class="flex flex-col items-center text-center mb-6 md:mb-8 pb-6 md:pb-8 border-b border-dark-border">
+                    <div
+                        class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-xl mb-4 md:mb-6">
+                        <img class="modal-image w-full h-full object-cover" src="" alt="" />
+                    </div>
+                    <h3 class="modal-name font-headline font-bold text-2xl md:text-3xl text-white mb-2"></h3>
+                    <p class="modal-title text-primary text-sm md:text-base font-medium"></p>
+                </div>
+                <div>
+                    <p
+                        class="modal-bio whitespace-pre-line text-on-surface-variant leading-relaxed text-sm md:text-base">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Section -->
+    <section class="py-16 md:py-32 bg-dark-bg" id="quy_trinh">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h2
+                class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center font-headline font-bold text-white mb-4 md:mb-6">
+                Lộ Trình Tuyển Dụng
+            </h2>
+            <div class="h-1.5 w-48 sm:w-72 bg-primary rounded-full my-6 md:my-8 mx-auto"></div>
+            <div class="relative mt-12 md:mt-20">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-16 relative">
+                    <div class="flex flex-col items-center text-center group">
+                        <div
+                            class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-dark-surface/50 border border-dark-border flex items-center justify-center mb-4 md:mb-6 relative z-10
+group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] group-hover:scale-110 transition-all duration-300">
+                            <span
+                                class="material-symbols-outlined text-white/50 group-hover:text-primary text-2xl sm:text-3xl transition-colors">app_registration</span>
+                        </div>
+                        <h4 class="font-headline font-bold text-lg sm:text-xl md:text-2xl text-white mb-2">1. Đăng ký
+                        </h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">04/2026 - 05/2026</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center group">
+                        <div
+                            class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-dark-surface/50 border border-dark-border flex items-center justify-center mb-4 md:mb-6 relative z-10
+group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] group-hover:scale-110 transition-all duration-300">
+                            <span
+                                class="material-symbols-outlined text-white/50 group-hover:text-primary text-2xl sm:text-3xl transition-colors">content_paste_search</span>
+                        </div>
+                        <h4 class="font-headline font-bold text-lg sm:text-xl md:text-2xl text-white mb-2">2. Sơ loại CV
+                        </h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">05/2026</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center group">
+                        <div
+                            class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-dark-surface/50 border border-dark-border flex items-center justify-center mb-4 md:mb-6 relative z-10
+group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] group-hover:scale-110 transition-all duration-300">
+                            <span
+                                class="material-symbols-outlined text-white/50 group-hover:text-primary text-2xl sm:text-3xl transition-colors">psychology</span>
+                        </div>
+                        <h4 class="font-headline font-bold text-lg sm:text-xl md:text-2xl text-white mb-2">3. Bài test
+                            Năng Lực</h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">05/2026</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center group">
+                        <div
+                            class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-dark-surface/50 border border-dark-border flex items-center justify-center mb-4 md:mb-6 relative z-10
+group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] group-hover:scale-110 transition-all duration-300">
+                            <span
+                                class="material-symbols-outlined text-white/50 group-hover:text-primary text-2xl sm:text-3xl transition-colors">forum</span>
+                        </div>
+                        <h4 class="font-headline font-bold text-lg sm:text-xl md:text-2xl text-white mb-2">4. Phỏng vấn
+                        </h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">05/2026</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center group">
+                        <div
+                            class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-primary shadow-[0_0_30px_rgba(0,212,255,0.4)] flex items-center justify-center mb-4 md:mb-6 relative z-10 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-white text-2xl sm:text-3xl">rocket_launch</span>
+                        </div>
+                        <h4 class="font-headline font-bold text-lg sm:text-xl md:text-2xl text-white mb-2">5. Onboarding
+                        </h4>
+                        <p class="text-on-surface-variant text-sm md:text-base leading-relaxed">06/2026</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form dang ki -->
+    <section class="py-16 md:py-32 bg-dark-bg" id="ung_tuyen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-dark-border shadow-2xl">
+                <div class="absolute inset-0 z-0">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-dark-surface/80 via-dark-surface/90 to-dark-surface">
+                    </div>
+                </div>
+                <div class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-16">
+                    <div class="max-w-4xl mx-auto">
+                        <h2
+                            class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-headline font-extrabold mb-4 md:mb-6 text-center text-white">
+                            Đăng Ký Ngay
+                        </h2>
+                        <div class="h-1.5 w-48 sm:w-72 bg-primary rounded-full mx-auto my-6 md:my-8"></div>
+                        <p class="text-lg md:text-xl text-on-surface-variant mb-8 md:mb-12 text-center font-light">
+                            Đừng bỏ lỡ cơ hội trở thành một phần của thế hệ tài năng công nghệ mới tại FPT Telecom
+                        </p>
+                        <form class="space-y-4 md:space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Họ và tên *</label>
+                                    <input type="text"
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white placeholder-on-surface-variant/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                                        placeholder="Nhập họ và tên" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Email *</label>
+                                    <input type="email"
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white placeholder-on-surface-variant/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                                        placeholder="email@example.com" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Số điện thoại *</label>
+                                    <input type="tel"
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white placeholder-on-surface-variant/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                                        placeholder="09xxxxxxxxx" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Tên trường *</label>
+                                    <input type="text"
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white placeholder-on-surface-variant/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                                        placeholder="Tên trường đại học" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Khu vực ứng tuyển
+                                        *</label>
+                                    <select
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer">
+                                        <option value="" class="bg-dark-surface">Chọn khu vực</option>
+                                        <option value="hanoi" class="bg-dark-surface">Hà Nội</option>
+                                        <option value="hcm" class="bg-dark-surface">TP. Hồ Chí Minh</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Chuyên ngành đào tạo
+                                        *</label>
+                                    <input type="text"
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white placeholder-on-surface-variant/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                                        placeholder="CNTT, Viễn thông, Điện tử..." />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Vị trí ứng tuyển
+                                        *</label>
+                                    <select
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer">
+                                        <option value="" class="bg-dark-surface">Chọn vị trí</option>
+                                        <option value="dev" class="bg-dark-surface">Lập trình</option>
+                                        <option value="network" class="bg-dark-surface">Mạng & Viễn thông</option>
+                                        <option value="security" class="bg-dark-surface">Bảo mật</option>
+                                        <option value="data" class="bg-dark-surface">Data & AI</option>
+                                        <option value="system" class="bg-dark-surface">Hệ thống</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Tháng/Năm tốt nghiệp
+                                        *</label>
+                                    <input type="text"
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white placeholder-on-surface-variant/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                                        placeholder="MM/YYYY" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Thời gian làm việc
+                                        *</label>
+                                    <select
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer">
+                                        <option value="" class="bg-dark-surface">Chọn thời gian</option>
+                                        <option value="fulltime" class="bg-dark-surface">Full-time</option>
+                                        <option value="parttime" class="bg-dark-surface">Part-time</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Hệ đào tạo *</label>
+                                    <select
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer">
+                                        <option value="" class="bg-dark-surface">Chọn hệ đào tạo</option>
+                                        <option value="daihoc" class="bg-dark-surface">Đại học</option>
+                                        <option value="caodang" class="bg-dark-surface">Cao đẳng</option>
+                                        <option value="trungcap" class="bg-dark-surface">Trung cấp</option>
+                                        <option value="khac" class="bg-dark-surface">Khác</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-white mb-2">Điểm GPA Trung bình
+                                        *</label>
+                                    <input type="text"
+                                        class="w-full px-4 md:px-5 py-3 md:py-4 bg-dark-bg/60 border border-dark-border rounded-xl text-white placeholder-on-surface-variant/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+                                        placeholder="VD: 3.2/4.0 hoặc 7.5/10" />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-semibold text-white mb-2">Upload CV *</label>
+                                    <div
+                                        class="border-2 border-dashed border-dark-border rounded-xl p-6 md:p-8 text-center hover:border-primary/50 transition-colors cursor-pointer bg-dark-bg/40">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-3xl md:text-4xl mb-2 md:mb-3">upload_file</span>
+                                        <p class="text-white font-medium mb-1 text-sm md:text-base">Kéo thả file CV vào
+                                            đây hoặc click để
+                                            chọn</p>
+                                        <p class="text-xs md:text-sm text-on-surface-variant">PDF, DOC, DOCX (Tối đa
+                                            5MB)</p>
+                                        <input type="file" class="hidden" accept=".pdf,.doc,.docx" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-6 md:pt-8">
+                                <button type="submit"
+                                    class="w-full bg-primary hover:bg-primary-dark text-white text-lg md:text-xl font-bold py-4 md:py-6 px-8 md:px-12 rounded-xl md:rounded-2xl shadow-2xl shadow-primary/40 transform hover:scale-[1.02] active:scale-95 transition-all duration-300">
+                                    Gửi Hồ Sơ Ngay
+                                </button>
+                                <p class="mt-4 md:mt-6 text-sm text-on-surface-variant text-center font-medium">
+                                    Hạn chót ứng tuyển: <span class="text-primary">30/04/2026</span>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 md:py-16 border-t border-dark-border bg-dark-bg">
+        <div class="max-w-7xl mx-auto px-6 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center w-full gap-8 md:gap-10 mb-10 md:mb-12">
+                <div class="flex-shrink-0">
+                    <img class="h-8 md:h-10 w-auto" src="Logo_FPT_Telecom.png" alt="FPT Telecom Logo">
+                </div>
+                <div class="flex flex-wrap justify-center md:justify-end gap-2 md:gap-3 w-full md:w-auto">
+                    <a href="https://www.facebook.com/fptjobs/" target="_blank"
+                        class="group flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-2.5 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 hover:bg-primary/10 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,212,255,0.2)] transition-all duration-300">
+                        <i
+                            class="fa-brands fa-facebook text-lg md:text-xl text-on-surface-variant group-hover:text-primary"></i>
+                        <span class="text-xs md:text-sm font-medium text-white group-hover:text-white">Fanpage</span>
+                    </a>
+                    <a href="https://linkedin.com/..." target="_blank"
+                        class="group flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-2.5 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 hover:bg-primary/10 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,212,255,0.2)] transition-all duration-300">
+                        <i
+                            class="fa-brands fa-linkedin text-lg md:text-xl text-on-surface-variant group-hover:text-primary"></i>
+                        <span class="text-xs md:text-sm font-medium text-white group-hover:text-white">LinkedIn</span>
+                    </a>
+                    <a href="https://tiktok.com/..." target="_blank"
+                        class="group flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-2.5 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-300">
+                        <i
+                            class="fa-brands fa-tiktok text-lg md:text-xl text-on-surface-variant group-hover:text-white"></i>
+                        <span class="text-xs md:text-sm font-medium text-white group-hover:text-white">TikTok</span>
+                    </a>
+                    <a href="https://fptjobs.com/" target="_blank"
+                        class="group flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-2.5 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 hover:bg-primary/10 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,212,255,0.2)] transition-all duration-300">
+                        <i
+                            class="fa-solid fa-globe text-lg md:text-xl text-on-surface-variant group-hover:text-primary"></i>
+                        <span class="text-xs md:text-sm font-medium text-white group-hover:text-white">FPT Jobs</span>
+                    </a>
+                </div>
+            </div>
+            <div
+                class="pt-6 md:pt-8 border-t border-dark-border flex flex-col md:flex-row justify-between items-center w-full gap-4 md:gap-6">
+                <div class="font-body text-xs md:text-sm text-on-surface-variant text-center md:text-left">
+                    Copyright © 2026. Official Website Tuyển dụng của Công ty Cổ phần Viễn thông FPT (FPT Telecom).
+                </div>
+                <div class="flex flex-col items-center md:items-end gap-2">
+                    <a href="mailto:FTELHR.Tuyendung@fpt.com"
+                        class="group flex items-center gap-2 text-xs md:text-sm text-on-surface-variant hover:text-primary transition-colors">
+                        <i
+                            class="fa-solid fa-envelope text-base md:text-lg group-hover:text-primary transition-colors"></i>
+                        FTELHR.Tuyendung@fpt.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+<script>
+    // Mobile Navigation
+    function toggleMobileNav() {
+        const mobileNav = document.getElementById('mobileNav');
+        const hamburger = document.querySelector('.hamburger');
+        mobileNav.classList.toggle('open');
+        hamburger.classList.toggle('active');
+        document.body.classList.toggle('modal-open');
+    }
+
+    function closeMobileNav() {
+        const mobileNav = document.getElementById('mobileNav');
+        const hamburger = document.querySelector('.hamburger');
+        mobileNav.classList.remove('open');
+        hamburger.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    // Enhanced Navigation Active State with Smooth Transitions
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+    const mainNav = document.getElementById('mainNav');
+
+    // Add scroll effect to navbar
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+        // Navbar background effect on scroll
+        if (window.scrollY > 50) {
+            mainNav.classList.add('scrolled');
+        } else {
+            mainNav.classList.remove('scrolled');
+        }
+
+        updateActiveNav();
+        lastScrollY = window.scrollY;
+    }, { passive: true });
+
+    function updateActiveNav() {
+        const scrollPosition = window.scrollY;
+        const navHeight = document.querySelector('nav').offsetHeight;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+
+            if (sectionId === 'tong_quan') {
+                if (scrollPosition < sectionHeight * 0.5) {
+                    setActiveLink('#tong_quan');
+                }
+            } else {
+                if (scrollPosition >= sectionTop - navHeight - 100 &&
+                    scrollPosition < sectionTop + sectionHeight - navHeight - 100) {
+                    setActiveLink(`#${sectionId}`);
+                }
+            }
+        });
+    }
+
+    function setActiveLink(href) {
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === href) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    // Smooth scroll for nav links with enhanced animation
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            if (targetSection) {
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = targetSection.offsetTop - navHeight;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Update active state immediately on click
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                closeMobileNav();
+            }
+        });
+    });
+
+    // Initial check on page load
+    window.addEventListener('load', () => {
+        updateActiveNav();
+        if (window.scrollY > 50) {
+            mainNav.classList.add('scrolled');
+        }
+    });
+    function scrollToSection(sectionId, offset = 0) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const navHeight = document.querySelector('nav').offsetHeight;
+            const targetPosition = section.offsetTop - navHeight + offset;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+    // Mentor Carousel
+    const sliderContainer = document.getElementById('mentorSlider');
+    const track = document.getElementById('mentorTrack');
+    const dotsContainer = document.getElementById('mentorDots');
+    const cards = document.querySelectorAll('.mentor-card');
+
+    const modal = document.getElementById('mentorModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalImage = document.getElementById('modalImage');
+    const modalName = document.getElementById('modalName');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBio = document.getElementById('modalBio');
+    const modalContent = modal.querySelector('.modal-content');
+
+    let currentIndex = Math.floor(cards.length / 2);
+    let autoFlowInterval;
+    const AUTO_FLOW_DELAY = 2500;
+    let isModalOpen = false;
+
+    function createDots() {
+        dotsContainer.innerHTML = '';
+        cards.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `mentor-dot ${index === currentIndex ? 'active' : ''}`;
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateCarousel();
+            });
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    function updateDots() {
+        const dots = dotsContainer.querySelectorAll('.mentor-dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    function getCardWidth() {
+        return cards[0] ? cards[0].offsetWidth + 32 : 0;
+    }
+
+    function updateActiveCard() {
+        cards.forEach((card, index) => {
+            card.classList.toggle('active', index === currentIndex);
+        });
+        updateDots();
+    }
+
+    function updateCarousel() {
+        if (cards.length === 0) return;
+
+        const cardWidth = getCardWidth();
+        const containerCenter = sliderContainer.offsetWidth / 2;
+        const offset = containerCenter - (currentIndex * cardWidth) - (cardWidth / 2);
+
+        track.style.transform = `translateX(${offset}px)`;
+        updateActiveCard();
+    }
+
+    function goToNext() {
+        if (isModalOpen) return;
+        currentIndex++;
+        if (currentIndex >= cards.length) currentIndex = 0;
+        updateCarousel();
+    }
+
+    function handleCardClick(clickedIndex) {
+        if (clickedIndex === currentIndex) {
+            const mentorData = getMentorData(cards[clickedIndex]);
+            openModal(mentorData);
+        } else {
+            currentIndex = clickedIndex;
+            updateCarousel();
+        }
+    }
+
+    function getMentorData(card) {
+        return {
+            name: card.getAttribute('data-name') || '',
+            title: card.getAttribute('data-title') || '',
+            image: card.getAttribute('data-image') || '',
+            bio: card.getAttribute('data-bio') || ''
+        };
+    }
+
+    function startAutoFlow() {
+        stopAutoFlow();
+        autoFlowInterval = setInterval(goToNext, AUTO_FLOW_DELAY);
+    }
+
+    function stopAutoFlow() {
+        if (autoFlowInterval) {
+            clearInterval(autoFlowInterval);
+            autoFlowInterval = null;
+        }
+    }
+
+    function openModal(mentorData) {
+        isModalOpen = true;
+        stopAutoFlow();
+
+        modalImage.src = mentorData.image;
+        modalImage.alt = mentorData.name;
+        modalName.textContent = mentorData.name;
+        modalTitle.textContent = mentorData.title;
+        modalBio.textContent = mentorData.bio;
+
+        modal.classList.add('open');
+        modalContent.style.transform = 'scale(1)';
+        document.body.classList.add('modal-open');
+    }
+
+    function closeModal() {
+        modalContent.style.transform = 'scale(0.95)';
+        modal.classList.remove('open');
+        document.body.classList.remove('modal-open');
+
+        setTimeout(() => {
+            isModalOpen = false;
+            startAutoFlow();
+        }, 300);
+    }
+
+    function init() {
+        cards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                handleCardClick(index);
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modal.querySelector('.modal-backdrop').addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isModalOpen) {
+                closeModal();
+            }
+        });
+
+        createDots();
+        updateCarousel();
+        startAutoFlow();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    window.addEventListener('resize', () => {
+        updateCarousel();
+    });
+
+    // Intern Modal - Simple Click to Open
+    document.addEventListener('DOMContentLoaded', () => {
+        const internCards = document.querySelectorAll('#the_he_tien_nhiem .cursor-pointer');
+        const internModal = document.getElementById('internModal');
+        const internModalContent = internModal.querySelector('.modal-content');
+        const internCloseBtn = internModal.querySelector('.modal-close');
+        const internBackdrop = internModal.querySelector('.modal-backdrop');
+        const internModalImage = internModal.querySelector('.modal-image');
+        const internModalName = internModal.querySelector('.modal-name');
+        const internModalTitle = internModal.querySelector('.modal-title');
+        const internModalBio = internModal.querySelector('.modal-bio');
+
+        const openInternModal = (card) => {
+            const name = card.getAttribute('data-name');
+            const title = card.getAttribute('data-title');
+            const image = card.getAttribute('data-image');
+            const bio = card.getAttribute('data-bio');
+
+            internModalName.textContent = name;
+            internModalTitle.textContent = title;
+            internModalImage.src = image;
+            internModalImage.alt = name;
+            internModalBio.textContent = bio;
+
+            internModal.classList.remove('opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                internModalContent.classList.remove('scale-95');
+                internModalContent.classList.add('scale-100');
+            }, 10);
+        };
+
+        const closeInternModal = () => {
+            internModal.classList.add('opacity-0', 'pointer-events-none');
+            internModalContent.classList.remove('scale-100');
+            internModalContent.classList.add('scale-95');
+        };
+
+        internCards.forEach(card => {
+            card.addEventListener('click', () => {
+                openInternModal(card);
+            });
+        });
+
+        internCloseBtn.addEventListener('click', closeInternModal);
+        internBackdrop.addEventListener('click', closeInternModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !internModal.classList.contains('opacity-0')) {
+                closeInternModal();
+            }
+        });
+    });
+</script>
+
+</html>
